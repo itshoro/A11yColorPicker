@@ -17,6 +17,8 @@ namespace ColorLib
             if (hexRepresentation[0] == '#')
                 hexRepresentation = hexRepresentation.Substring(1);
 
+            hexRepresentation = hexRepresentation.ToLower();
+
             if (hexRepresentation.Length == 3)
             {
                 hexRepresentation = new string(
@@ -32,11 +34,12 @@ namespace ColorLib
                 );
             }
 
+
             if (hexRepresentation.Length == 6)
             {
-                R = Convert.ToByte(hexRepresentation.Substring(0, 2));
-                G = Convert.ToByte(hexRepresentation.Substring(2, 2));
-                B = Convert.ToByte(hexRepresentation.Substring(4, 2));
+                R = Convert.ToByte(hexRepresentation.Substring(0, 2), 16);
+                G = Convert.ToByte(hexRepresentation.Substring(2, 2), 16);
+                B = Convert.ToByte(hexRepresentation.Substring(4, 2), 16);
             }
             else
             {

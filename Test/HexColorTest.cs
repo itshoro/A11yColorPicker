@@ -7,20 +7,20 @@ using System.Text;
 namespace Test
 {
     [TestClass]
-    class HexColorTest
+    public class HexColorTest
     {
         [TestMethod]
         public void TestHexColorCanBeGeneratedWithoutPoundSign()
         {
             var color = new HexColor("000000");
-            Assert.AreEqual(new[] { color.R, color.G, color.B }, new[] { 0xFF, 0xFF, 0xFF });
+            CollectionAssert.Equals(new byte[] { 0xFF, 0xFF, 0xFF }, new[] { color.R, color.G, color.B });
         }
 
         [TestMethod]
         public void TestHexColorCanBePrependedWithAPoundSign()
         {
             var color = new HexColor("#000000");
-            Assert.AreEqual(new[] { color.R, color.G, color.B }, new[] { 0xFF, 0xFF, 0xFF });
+            CollectionAssert.Equals(new byte[] { 0xFF, 0xFF, 0xFF }, new[] { color.R, color.G, color.B });
         }
 
         [TestMethod]
@@ -28,13 +28,13 @@ namespace Test
         {
 
             var color = new HexColor("#FC0");
-            Assert.AreEqual(new[] { color.R, color.G, color.B }, new[] { 0xFF, 0xCC, 0x00 });
+            CollectionAssert.Equals(new byte[] { 0xFF, 0xCC, 0x00 }, new[] { color.R, color.G, color.B });
         }
 
         [TestMethod]
         public void TestHexColorCanOnlyUseHexadecimalValues()
         {
-            Assert.ThrowsException<ArgumentException>(
+            Assert.ThrowsException<FormatException>(
             () => {
                 var color = new HexColor("#ZZZZZZ");
             });
@@ -44,7 +44,7 @@ namespace Test
         [TestMethod]
         public void TestHexColorNeedsAtleastThreeDigits()
         {
-            Assert.ThrowsException<ArgumentException>(
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
             () => {
                 var color = new HexColor("#FF");
             });
@@ -53,7 +53,7 @@ namespace Test
         [TestMethod]
         public void TestHexColorCantHaveFourDigits()
         {
-            Assert.ThrowsException<ArgumentException>(
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
             () => {
                 var color = new HexColor("#0000");
             });
@@ -61,7 +61,7 @@ namespace Test
 
         public void TestHexColorCantHaveFiveDigits()
         {
-            Assert.ThrowsException<ArgumentException>(
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
             () => {
                 var color = new HexColor("#00000");
             });
@@ -70,7 +70,7 @@ namespace Test
         [TestMethod]
         public void TestHexColorCantHaveMoreThanSixDigits()
         {
-            Assert.ThrowsException<ArgumentException>(
+            Assert.ThrowsException<ArgumentOutOfRangeException>(
             () => {
                 var color = new HexColor("#0000000");
             });

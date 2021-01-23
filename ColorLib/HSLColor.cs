@@ -23,7 +23,7 @@ namespace ColorLib
 
         public HSLColor ToHSL()
         {
-            throw new NotImplementedException();
+            return this;
         }
 
         public RGBColor ToRGB()

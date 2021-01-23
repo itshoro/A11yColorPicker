@@ -7,20 +7,20 @@ using System.Text;
 namespace Test
 {
     [TestClass]
-    class RGBColorTest
+    public class RGBColorTest
     {
         [TestMethod]
         public void TestBlackCanBeRepresentedAsAnRGBColor()
         {
             var black = new RGBColor(0, 0, 0);
-            Assert.AreEqual(new[] { black.R, black.G, black.B }, new[] { 0, 0, 0 });
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 0 }, new[] { black.R, black.G, black.B });
         }
 
         [TestMethod]
         public void TestWhiteCanBeRepresentedAsAnRGBColor()
         {
             var black = new RGBColor(0xFF, 0xFF, 0xFF);
-            Assert.AreEqual(new[] { black.R, black.G, black.B }, new[] { 0xFF, 0xFF, 0xFF });
+            CollectionAssert.AreEqual(new byte[] { 0xFF, 0xFF, 0xFF }, new[] { black.R, black.G, black.B });
         }
     }
 }
