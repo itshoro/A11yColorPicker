@@ -25,7 +25,26 @@ namespace A11yColorPicker.Colors
 
         public RGBColor ToRGB()
         {
-            throw new NotImplementedException();
+            var c = (1 - MathF.Abs(2 * L - 1)) * S;
+            var x = c * (1 - MathF.Abs(H / 60f % 2 - 1));
+            var m = L - c / 2;
+
+            (float, float, float) _ = H switch
+            { 
+                < 60  => (c, x, 0),
+                < 120 => (x, c, 0),
+                < 180 => (0, c, x),
+                < 240 => (0, x, c),
+                < 300 => (x, 0, c),
+                < 360 => (c, 0, x),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            byte r = Convert.ToByte((_.Item1 + m) * 255);
+            byte g = Convert.ToByte((_.Item2 + m) * 255);
+            byte b = Convert.ToByte((_.Item3 + m) * 255);
+
+            return new RGBColor(r, g, b);
         }
 
         public override string ToString()
@@ -69,7 +88,8 @@ namespace A11yColorPicker.Colors
 
         public static bool operator ==(HSLColor hslColor1, RGBColor rgbColor)
         {
-            throw new NotImplementedException();
+            var hslColor2 = rgbColor.ToHSL();
+            return hslColor1 == hslColor2;
         }
         public static bool operator !=(HSLColor hslColor1, RGBColor rgbColor)
         {
