@@ -57,7 +57,7 @@ namespace A11yColorPicker.Colors
 
         public override string ToString()
         {
-            return $"rgb({R}, {G}, ${B})";
+            return $"rgb({R}, {G}, {B})";
         }
 
         public string ToHexString(bool prependHashSign = true)
