@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace A11yColorPicker.Colors.Test
             var rgbColor = new RGBColor(0, 0, 0);
             var hexColor = rgbColor.ToHex();
 
-            Assert.Equals(hexColor, rgbColor);
+            hexColor.Should().Be(rgbColor);
         }
 
         [TestMethod]
@@ -23,7 +24,7 @@ namespace A11yColorPicker.Colors.Test
             var rgbColor = new RGBColor(0, 0, 0);
             var hslColor = rgbColor.ToHSL();
 
-            Assert.Equals(hslColor, rgbColor);
+            hslColor.Should().Be(rgbColor);
         }
         [TestMethod]
         public void TestHexColorCanBeConvertedToRGBColor()
@@ -31,7 +32,8 @@ namespace A11yColorPicker.Colors.Test
             var hexColor = new HexColor("#000");
             var rgbColor = hexColor.ToRGB();
 
-            Assert.AreEqual(hexColor, rgbColor);
+            rgbColor.Should().Be(hexColor);
+
         }
         [TestMethod]
         public void TestHexColorCanBeConvertedToHSLColor()
@@ -39,7 +41,7 @@ namespace A11yColorPicker.Colors.Test
             var hexColor = new HexColor("#000");
             var hslColor = hexColor.ToHSL();
 
-            Assert.AreEqual(hexColor, hslColor);
+            hslColor.Should().Be(hexColor);
         }
 
         [TestMethod]
@@ -48,7 +50,7 @@ namespace A11yColorPicker.Colors.Test
             var hslColor = new HSLColor(0, 0, 0);
             var hexColor = hslColor.ToHex();
 
-            Assert.AreEqual(hslColor, hexColor);
+            hexColor.Should().Be(hslColor);
         }
 
         [TestMethod]
@@ -57,7 +59,7 @@ namespace A11yColorPicker.Colors.Test
             var hslColor = new HSLColor(0, 0, 0);
             var rgbColor = hslColor.ToRGB();
 
-            Assert.AreEqual(hslColor, rgbColor);
+            rgbColor.Should().Be(hslColor);
         }
     }
 }
