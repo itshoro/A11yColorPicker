@@ -26,23 +26,25 @@ namespace A11yColorPicker.Colors
         public RGBColor ToRGB()
         {
             var c = (1 - Math.Abs(2 * L - 1)) * S;
-            var x = c * (1 - Math.Abs(H / 60 % 2 - 1));
-            var m = L - c / 2;
+            var _H = H / 60.0;
+
+            var x = c * (1 - Math.Abs((_H % 2.0) - 1));
+            var m = L - c * 0.5;
 
             (double, double, double) _ = H switch
             { 
-                < 60  => (c, x, 0),
-                < 120 => (x, c, 0),
-                < 180 => (0, c, x),
-                < 240 => (0, x, c),
-                < 300 => (x, 0, c),
-                < 360 => (c, 0, x),
-                _ => throw new ArgumentOutOfRangeException()
+                <= 60  => (c, x, 0),
+                <= 120 => (x, c, 0),
+                <= 180 => (0, c, x),
+                <= 240 => (0, x, c),
+                <= 300 => (x, 0, c),
+                <= 360 => (c, 0, x),
+                _ => (0,0,0)
             };
 
-            byte r = Convert.ToByte((_.Item1 + m) * 255);
-            byte g = Convert.ToByte((_.Item2 + m) * 255);
-            byte b = Convert.ToByte((_.Item3 + m) * 255);
+            byte r = Convert.ToByte(Math.Round(255 * (_.Item1 + m)));
+            byte g = Convert.ToByte(Math.Round(255 * (_.Item2 + m)));
+            byte b = Convert.ToByte(Math.Round(255 * (_.Item3 + m)));
 
             return new RGBColor(r, g, b);
         }

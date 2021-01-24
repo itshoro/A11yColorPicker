@@ -99,13 +99,9 @@ namespace A11yColorPicker.Colors
             }
 
             var hue = 0.0;
-            if (max == 0 && min == 0)
+            if(max == min)
             {
-                hue = 0;
-            }
-            else if (max == 255 && min == 255)
-            {
-                hue = 255;
+                hue = 0.0;
             }
             else
             {
@@ -167,8 +163,11 @@ namespace A11yColorPicker.Colors
 
         public static bool operator ==(RGBColor rgbColor, HSLColor hslColor)
         {
-            var rgbColor2 = hslColor.ToRGB();
-            return rgbColor == rgbColor2;
+            // While working on HSLColor.ToRGB() I noticed that there are colors that can't be properly be converted between color formats.
+            // E.g. #F20C3A => (348°, 0.91, 0.5) => #F40B3A
+            // Therefore I needed to favor one equality over the other.
+            var hslColor2 = rgbColor.ToHSL();
+            return hslColor == hslColor2;
         }
 
         public static bool operator !=(RGBColor rgbColor, HSLColor hslColor)

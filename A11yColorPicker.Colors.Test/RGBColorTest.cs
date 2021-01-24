@@ -90,10 +90,19 @@ namespace A11yColorPicker.Colors.Test
         }
 
         [TestMethod]
-        public void TestRGBColorCanBeEqualToHSLColor()
+        public void TestSimpleRGBColorCanBeEqualToHSLColor()
         {
             var rgbColor = new RGBColor(0, 0, 0);
             var hslColor = new HSLColor(0, 0, 0);
+
+            rgbColor.Should().Be(hslColor);
+        }
+
+        [TestMethod]
+        public void TestComplexRGBColorCanBeEqualToHSLColor()
+        {
+            var rgbColor = RGBColor.FromHexString("#F20C3A");
+            var hslColor = new HSLColor(348, 0.91, 0.5);
 
             rgbColor.Should().Be(hslColor);
         }
