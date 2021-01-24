@@ -73,39 +73,39 @@ namespace A11yColorPicker.Colors
 
         public HSLColor ToHSL()
         {
-            var r = R / 255f;
-            var g = G / 255f;
-            var b = B / 255f;
+            var r = R / 255.0;
+            var g = G / 255.0;
+            var b = B / 255.0;
 
-            var mightBeMax = MathF.Max(r, g);
-            var max = MathF.Max(mightBeMax, b);
+            var mightBeMax = Math.Max(r, g);
+            var max = Math.Max(mightBeMax, b);
 
-            var mightBeMin = MathF.Min(r, g);
-            var min = MathF.Min(mightBeMin, b);
+            var mightBeMin = Math.Min(r, g);
+            var min = Math.Min(mightBeMin, b);
 
-            var luminance = (min + max) / 2f;
+            var luminance = (min + max) / 2.0;
 
-            var saturation = 0f;
+            var saturation = 0.0;
             if (min != max)
             {
-                if (luminance <= 0.5f)
+                if (luminance <= 0.5)
                 {
                     saturation = (max - min) / (max + min);
                 }
                 else
                 {
-                    saturation = (max - min) / (2f - max - min);
+                    saturation = (max - min) / (2.0 - max - min);
                 }
             }
 
-            var hue = 0f;
-            if (max == 0f && min == 0f)
+            var hue = 0.0;
+            if (max == 0 && min == 0)
             {
-                hue = 0f;
+                hue = 0;
             }
-            else if (max == 255f && min == 255f)
+            else if (max == 255 && min == 255)
             {
-                hue = 255f;
+                hue = 255;
             }
             else
             {
@@ -115,11 +115,11 @@ namespace A11yColorPicker.Colors
                 }
                 else if (max == g)
                 {
-                    hue = 2f + (b - r) / (max - min);
+                    hue = 2.0 + (b - r) / (max - min);
                 }
                 else
                 {
-                    hue = 4f + (r - g) / (max - min);
+                    hue = 4.0 + (r - g) / (max - min);
                 }
             }
 
@@ -128,10 +128,10 @@ namespace A11yColorPicker.Colors
 
             while (hue < 0)
             {
-                hue += 360f;
+                hue += 360;
             }
 
-            return new HSLColor(Convert.ToInt16(MathF.Round(hue * 100f) * 0.01f), MathF.Round(saturation * 100f) * 0.01f, MathF.Round(luminance * 100f) * 0.01f);
+            return new HSLColor(Convert.ToInt16(Math.Round(hue)), Math.Round(saturation, 2), Math.Round(luminance, 2));
         }
 
         public RGBColor ToRGB()

@@ -8,10 +8,10 @@ namespace A11yColorPicker.Colors
     public class HSLColor : IConvertibleColor, IEquatable<HSLColor>, IEquatable<RGBColor>
     {
         public short H { get; }
-        public float S { get; }
-        public float L { get; }
+        public double S { get; }
+        public double L { get; }
 
-        public HSLColor(short h, float s, float l)
+        public HSLColor(short h, double s, double l)
         {
             H = h;
             S = s;
@@ -25,11 +25,11 @@ namespace A11yColorPicker.Colors
 
         public RGBColor ToRGB()
         {
-            var c = (1 - MathF.Abs(2 * L - 1)) * S;
-            var x = c * (1 - MathF.Abs(H / 60f % 2 - 1));
+            var c = (1 - Math.Abs(2 * L - 1)) * S;
+            var x = c * (1 - Math.Abs(H / 60 % 2 - 1));
             var m = L - c / 2;
 
-            (float, float, float) _ = H switch
+            (double, double, double) _ = H switch
             { 
                 < 60  => (c, x, 0),
                 < 120 => (x, c, 0),
