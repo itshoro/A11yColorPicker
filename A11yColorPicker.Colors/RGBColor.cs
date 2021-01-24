@@ -167,7 +167,8 @@ namespace A11yColorPicker.Colors
 
         public static bool operator ==(RGBColor rgbColor, HSLColor hslColor)
         {
-            throw new NotImplementedException();
+            var rgbColor2 = hslColor.ToRGB();
+            return rgbColor == rgbColor2;
         }
 
         public static bool operator !=(RGBColor rgbColor, HSLColor hslColor)
