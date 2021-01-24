@@ -5,7 +5,7 @@ using System.Text;
 
 namespace A11yColorPicker.Colors
 {
-    public class RGBColor : IConvertibleColor, IEquatable<HexColor>, IEquatable<HSLColor>
+    public class RGBColor : IConvertibleColor, IEquatable<HSLColor>
     {
         public byte R { get; }
         public byte G { get; }
@@ -18,9 +18,57 @@ namespace A11yColorPicker.Colors
             B = b;
         }
 
-        public HexColor ToHex()
+        public static RGBColor FromHexString(string hex)
         {
-            return new HexColor(string.Join("", new[] { R,G,B }));
+            hex = hex.Trim();
+            if (hex[0] == '#')
+                hex = hex.Substring(1);
+
+            hex = hex.ToLower();
+
+            if (hex.Length == 3)
+            {
+                hex = new string(
+                    new[]
+                    {
+                        hex[0],
+                        hex[0],
+                        hex[1],
+                        hex[1],
+                        hex[2],
+                        hex[2]
+                    }
+                );
+            }
+
+            if (hex.Length == 6)
+            {
+                return new RGBColor(
+                    Convert.ToByte(hex.Substring(0, 2), 16),
+                    Convert.ToByte(hex.Substring(2, 2), 16),
+                    Convert.ToByte(hex.Substring(4, 2), 16)
+                );
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"rgb({R}, {G}, ${B})";
+        }
+
+        public string ToHexString(bool prependHashSign = true)
+        {
+            var hex = R.ToString("16") + G.ToString("16") + B.ToString("16");
+            if (prependHashSign)
+            {
+                hex += "#";
+            }
+
+            return hex;
         }
 
         public HSLColor ToHSL()
@@ -51,18 +99,30 @@ namespace A11yColorPicker.Colors
             }
 
             var hue = 0f;
-            if (max == r)
+            if (max == 0f && min == 0f)
             {
-                hue = (g - b) / (max - min);
+                hue = 0f;
             }
-            else if (max == g)
+            else if (max == 255f && min == 255f)
             {
-                hue = 2f + (b - r) / (max - min);
+                hue = 255f;
             }
             else
             {
-                hue = 4f + (r - g) / (max - min);
+                if (max == r)
+                {
+                    hue = (g - b) / (max - min);
+                }
+                else if (max == g)
+                {
+                    hue = 2f + (b - r) / (max - min);
+                }
+                else
+                {
+                    hue = 4f + (r - g) / (max - min);
+                }
             }
+
 
             hue *= 60;
 
@@ -79,14 +139,55 @@ namespace A11yColorPicker.Colors
             return this;
         }
 
-        public bool Equals([AllowNull] HSLColor other)
+        public override bool Equals(Object obj)
+        {
+            if (ReferenceEquals(obj, null))
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            return obj switch
+            {
+                RGBColor rgb => Equals(rgb),
+                HSLColor hsl => Equals(hsl),
+                _ => false,
+            };
+        }
+
+        public static bool operator ==(RGBColor rgbColor, RGBColor rgbColor2)
+        {
+            return rgbColor.R == rgbColor2.R && rgbColor.G == rgbColor2.G && rgbColor.B == rgbColor2.B;
+        }
+
+        public static bool operator !=(RGBColor rgbColor, RGBColor rgbColor2)
+        {
+            return !(rgbColor == rgbColor2);
+        }
+
+        public static bool operator ==(RGBColor rgbColor, HSLColor hslColor)
         {
             throw new NotImplementedException();
         }
 
-        public bool Equals([AllowNull] HexColor other)
+        public static bool operator !=(RGBColor rgbColor, HSLColor hslColor)
         {
-            return this.R == other.R && this.G == other.G && this.B == other.B;
+            throw new NotImplementedException();
+        }
+
+        public bool Equals([AllowNull] RGBColor other)
+        {
+            return this == other;
+        }
+
+        public bool Equals([AllowNull] HSLColor other)
+        {
+            return this == other;
+        }
+
+        public override int GetHashCode()
+        {
+            return R << 16 & G << 8 & B;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace A11yColorPicker.Colors
 {
-    public class HSLColor : IConvertibleColor, IEquatable<HexColor>, IEquatable<RGBColor>
+    public class HSLColor : IConvertibleColor, IEquatable<RGBColor>
     {
         public short H { get; }
         public float S { get; }
@@ -16,10 +16,6 @@ namespace A11yColorPicker.Colors
             H = h;
             S = s;
             L = l;
-        }
-        public HexColor ToHex()
-        {
-            throw new NotImplementedException();
         }
 
         public HSLColor ToHSL()
@@ -33,11 +29,6 @@ namespace A11yColorPicker.Colors
         }
 
         public bool Equals([AllowNull] RGBColor other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Equals([AllowNull] HexColor other)
         {
             throw new NotImplementedException();
         }
