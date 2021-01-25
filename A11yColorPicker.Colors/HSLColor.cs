@@ -13,9 +13,22 @@ namespace A11yColorPicker.Colors
 
         public HSLColor(short h, double s, double l)
         {
-            H = h;
-            S = s;
+            if (h > 360) throw new ArgumentOutOfRangeException("Hue has to be a value between 0 and 360");
+            if (s > 1) throw new ArgumentOutOfRangeException("Saturation has to be a value between 0 and 1");
+            if (l > 1) throw new ArgumentOutOfRangeException("Luminance has to be a value between 0 and 1");
+
             L = l;
+
+            if (L == 0.0 || L == 1.0)
+            {
+                H = 0;
+                S = 0.0;
+            }
+            else
+            {
+                H = (short)(h % 360);
+                S = s;
+            }
         }
 
         public HSLColor ToHSL()
