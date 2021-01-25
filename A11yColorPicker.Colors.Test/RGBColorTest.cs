@@ -18,9 +18,9 @@ namespace A11yColorPicker.Colors.Test
         [TestMethod]
         public void TestWhiteCanBeRepresentedAsAnRGBColor()
         {
-            var black = new RGBColor(0xFF, 0xFF, 0xFF);
+            var white = new RGBColor(0xFF, 0xFF, 0xFF);
 
-            new[] { black.R, black.G, black.B }.Should().BeEquivalentTo(new byte[] { 0xFF, 0xFF, 0xFF });
+            new[] { white.R, white.G, white.B }.Should().BeEquivalentTo(new byte[] { 0xFF, 0xFF, 0xFF });
         }
 
         [TestMethod]
@@ -105,6 +105,22 @@ namespace A11yColorPicker.Colors.Test
             var hslColor = new HSLColor(348, 0.91, 0.5);
 
             rgbColor.Should().Be(hslColor);
+        }
+
+        [TestMethod]
+        public void TestRGBColorCanProduceAProperStringRepresentation()
+        {
+            var rgbColor = RGBColor.FromHexString("F20C3A");
+
+            rgbColor.ToString().Should().BeEquivalentTo("rgb(242, 12, 58)");
+        }
+
+        [TestMethod]
+        public void TestHSLColorCanProduceAProperHexStringRepresentation()
+        {
+            var rgbColor = RGBColor.FromHexString("F20C3A");
+
+            rgbColor.ToHexString().Should().BeEquivalentTo("#F20C3A");
         }
     }
 }

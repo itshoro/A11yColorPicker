@@ -62,12 +62,9 @@ namespace A11yColorPicker.Colors
 
         public string ToHexString(bool prependHashSign = true)
         {
-            var hex = R.ToString("16") + G.ToString("16") + B.ToString("16");
-            if (prependHashSign)
-            {
-                hex += "#";
-            }
+            var hex = prependHashSign ? "#" : string.Empty;
 
+            hex += R.ToString("X2") + G.ToString("X2") + B.ToString("X2");
             return hex;
         }
 
